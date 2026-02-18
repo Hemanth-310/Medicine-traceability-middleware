@@ -13,7 +13,7 @@ import time
 # Configuration
 # ------------------------
 class Config:
-    JWT_SECRET_KEY = "supersecretkey"  # Replace with your secure key
+    JWT_SECRET_KEY = "supersecretkey"
 
 # ------------------------
 # Flask App
@@ -27,7 +27,7 @@ jwt = JWTManager(app)
 # In-memory "database" for demo
 # ------------------------
 users_db = {}  # key: email, value: dict with password and role
-medicine_batches = []  # simulate MongoDB batches
+medicine_batches = []
 
 # ------------------------
 # Middleware
