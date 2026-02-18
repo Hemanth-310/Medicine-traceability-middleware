@@ -8,9 +8,9 @@ import time
 protected_mw_bp = Blueprint("protected_mw", __name__, url_prefix="/api")
 
 
-# -----------------------------------------
+
 # Role Check Function (Manual RBAC)
-# -----------------------------------------
+
 def role_required(*allowed_roles):
     def decorator(func):
         def wrapper(*args, **kwargs):
@@ -29,9 +29,9 @@ def role_required(*allowed_roles):
     return decorator
 
 
-# -----------------------------------------
+
 # User Profile
-# -----------------------------------------
+
 @protected_mw_bp.get("/profile")
 @role_required("user", "admin")
 def profile():
@@ -50,9 +50,9 @@ def profile():
     return jsonify(data), 200
 
 
-# -----------------------------------------
+
 # Admin Audit
-# -----------------------------------------
+
 @protected_mw_bp.get("/regulatory/audit")
 @role_required("admin")
 def regulatory_audit():
@@ -78,9 +78,9 @@ def start_regulatory_audit():
     }), 202
 
 
-# -----------------------------------------
+
 # Batch Manufacture
-# -----------------------------------------
+
 @protected_mw_bp.post("/regulatory/batch-manufacture")
 @role_required("admin")
 def batch_manufacture():
