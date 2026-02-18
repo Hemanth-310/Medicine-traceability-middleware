@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from pymongo import MongoClient
 import threading
 import time
-from config import Config  # Your config file with JWT_SECRET_KEY and Mongo URI
+from config import Config
 
 # ------------------------
 # Flask App
@@ -18,7 +18,7 @@ jwt = JWTManager(app)
 # ------------------------
 # MongoDB Connection
 # ------------------------
-mongo_client = MongoClient(Config.MONGO_URI)  # e.g., "mongodb://localhost:27017/"
+mongo_client = MongoClient(Config.MONGO_URI)
 db = mongo_client["medicine_traceability"]  # DB name
 users_col = db["users"]
 batches_col = db["medicine_batches"]
