@@ -7,25 +7,25 @@ import threading
 import time
 from config import Config
 
-# ------------------------
+
 # Flask App
-# ------------------------
+
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = Config.JWT_SECRET_KEY
 CORS(app, supports_credentials=True)
 jwt = JWTManager(app)
 
-# ------------------------
+
 # MongoDB Connection
-# ------------------------
+
 mongo_client = MongoClient(Config.MONGO_URI)
 db = mongo_client["medicine_traceability"]  # DB name
 users_col = db["users"]
 batches_col = db["medicine_batches"]
 
-# ------------------------
+
 # Middleware
-# ------------------------
+
 @app.before_request
 def verify_token_middleware():
     if request.path == "/health":
@@ -45,9 +45,9 @@ def verify_token_middleware():
     except Exception:
         return jsonify({"error": "Invalid or expired token"}), 401
 
-# ------------------------
+
 # Auth Blueprint
-# ------------------------
+
 auth_bp = Blueprint("auth", __name__)
 
 @auth_bp.post("/register")
@@ -83,9 +83,9 @@ def login():
     token = create_access_token(identity=email, additional_claims={"role": user["role"]})
     return {"access_token": token}, 200
 
-# ------------------------
+
 # Role Decorator
-# ------------------------
+
 def role_required(*allowed_roles):
     def decorator(func):
         def wrapper(*args, **kwargs):
@@ -99,9 +99,9 @@ def role_required(*allowed_roles):
         return wrapper
     return decorator
 
-# ------------------------
+
 # Protected Routes
-# ------------------------
+
 protected_bp = Blueprint("protected", __name__, url_prefix="/api")
 
 @protected_bp.get("/profile")
@@ -162,21 +162,21 @@ def batch_manufacture():
         "count": len(medicine_names)
     }, 201
 
-# ------------------------
+
 # Health Route
-# ------------------------
+
 @app.get("/health")
 def health():
     return {"status": "middleware version running"}, 200
 
-# ------------------------
+
 # Register Blueprints
-# ------------------------
+
 app.register_blueprint(auth_bp)
 app.register_blueprint(protected_bp)
 
-# ------------------------
-# Run App
-# ------------------------
+
+# App
+
 if __name__ == "__main__":
     app.run(debug=True)
